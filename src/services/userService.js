@@ -10,7 +10,7 @@ export function getUser() {
 
 export function saveUser(user) {
   const obj = {
-    name: user.name,
+    username: user.username,
     email: user.email,
     password: user.password
   };
@@ -23,7 +23,7 @@ export function deleteUser(user_id) {
 
 export function updateUser(user) {
   const obj = {
-    name: user.name,
+    username: user.username,
     email: user.email
   };
   return http.put("/users/me", obj);

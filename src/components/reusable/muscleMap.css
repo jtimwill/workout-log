@@ -1,0 +1,29 @@
+path:not(.silhouette):hover {
+  stroke: #fff !important;
+  fill: #E50B0B !important;
+  cursor: pointer;
+  fill-opacity: 1;
+}
+
+.default-muscle {
+  stroke-width: 1;
+  stroke: #1B33CF;
+  fill-opacity: 0;
+  fill: "";
+}
+
+.highlighted-muscle {
+  stroke-width: 1;
+  stroke: #fff;
+  fill-opacity: 1;
+  fill: #E50B0B;
+}
+
+@media only screen and (max-width:600px) {
+  svg {
+    width: 50%;
+    height: 50%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
