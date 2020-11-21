@@ -23,7 +23,11 @@ const CompletedWorkoutBody = ({ completed_workout, current_completed_workout, on
         <div key={exercise.id} className={getCSSClass(completed_workout, current_completed_workout)}>
           <div className="card-body">
             <div className="d-flex flex-row align-items-center justify-content-between">
-              <div className="w-50">{formatInfo(exercise)}</div>
+              <div 
+                className={"w-50 " + ((exercise.sets === 0 || exercise.reps === 0)? "text-danger" : "text-success")}
+              >
+                {formatInfo(exercise)}
+              </div>
               <div>
                 {exercise.unilateral ? <span className={badge}> U </span> : ""}
                 <Link

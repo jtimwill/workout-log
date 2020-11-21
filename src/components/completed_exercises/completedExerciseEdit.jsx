@@ -52,7 +52,7 @@ class CompletedExerciseEdit extends Component {
     const completed_exercise = {
       id: String(data.id),
       completedWorkoutId: String(data.completedWorkoutId),
-      exerciseId: data.exerciseId,
+      exerciseId: String(data.exerciseId),
       exercise_type: data.exercise_type,
       sets: data.sets,
       reps: data.reps,

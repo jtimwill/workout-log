@@ -52,7 +52,7 @@ class TargetExerciseEdit extends Component {
     const target_exercise = {
       id: String(data.id),
       workoutId: String(data.workoutId),
-      exerciseId: data.exerciseId,
+      exerciseId: String(data.exerciseId),
       exercise_type: data.exercise_type,
       sets: data.sets,
       reps: data.reps,
@@ -102,7 +102,7 @@ class TargetExerciseEdit extends Component {
       <div>
         <form onSubmit={this.handleSubmit} className="card bg-light">
           <div className="card-body">
-            <h4>Edit Completed Exercise</h4>
+            <h4>Edit Target Exercise</h4>
             <div className="form-group">
               <label htmlFor="inputGroupExerciseId">Exercise</label>
               <select

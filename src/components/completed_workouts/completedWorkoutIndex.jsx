@@ -160,7 +160,7 @@ class CompletedWorkoutIndex extends Component {
           onMuscleSelect={() => {}}
         />
 
-        <Link to="/workouts/new" className="btn btn-primary mr-1">
+        <Link to="/completed_workouts/new" className="btn btn-primary mr-1">
           New Completed Workout
         </Link>
         <button onClick={this.toggleSort} className="btn btn-info btn-sm">
