@@ -1,16 +1,16 @@
 import React, { Component} from 'react';
 import { Link } from 'react-router-dom';
 import { getWorkouts, deleteWorkout } from '../../services/workoutService.js';
-import { deleteCompletedExercise } from '../../services/completedExerciseService.js';
+import { deleteTargetExercise } from '../../services/targetExerciseService.js';
 import { getMuscles } from '../../services/muscleService.js';
 import { compareDates } from '../../utilities/sortUtility.js';
-import { reformatDate } from '../../utilities/dateUtility.js';
 import './workout.css';
 import Pagination from '../reusable/pagination';
 import Spinner from '../reusable/spinner';
 import MuscleMap from '../reusable/muscleMap';
 import WorkoutHead from './workoutHead'
 import WorkoutBody from './workoutBody';
+import { getExercises } from '../../services/exerciseService.js';
 
 class WorkoutIndex extends Component {
   state = {
@@ -19,14 +19,24 @@ class WorkoutIndex extends Component {
     sort_direction: "desc",
     current_workout: {},
     muscles: [],
+    exercises: [],
     api_response: false
   };
 
   async componentDidMount() {
     const { data: muscles } = await getMuscles();
     const { data: workouts } = await getWorkouts();
+    const { data: exercises } = await getExercises();
+
     workouts.sort(compareDates);
-    this.setState({ workouts, muscles, api_response: true });
+
+    for(let w of workouts) {
+      for(let ce of w.target_exercises) {
+        ce.name = exercises[ce.exerciseId-1].name;
+      }
+    }
+
+    this.setState({ workouts, exercises, muscles, api_response: true });
   }
 
   confirmDelete(name) {
@@ -36,12 +46,12 @@ class WorkoutIndex extends Component {
   handleWorkoutDelete = async selected_workout => {
     if (!this.confirmDelete("workout")) { return; }
     const old_workouts = this.state.workouts;
-    const new_workouts = old_workouts.filter(w => w._id !== selected_workout._id);
+    const new_workouts = old_workouts.filter(w => w.id !== selected_workout.id);
 
     this.setState({ workouts: new_workouts });
 
     try {
-      await deleteWorkout(selected_workout._id);
+      await deleteWorkout(selected_workout.id);
     } catch (exception) {
       if (exception.response && exception.response.status === 404) {
         alert("This workout has already been deleted.");
@@ -53,14 +63,14 @@ class WorkoutIndex extends Component {
   handleExerciseDelete = async (workout_index, selected_exercise) => {
     if (!this.confirmDelete("exercise")) { return; }
     const old_exercises = this.state.workouts[workout_index].exercises;
-    const new_exercises = old_exercises.filter(e => e._id !== selected_exercise._id);
+    const new_exercises = old_exercises.filter(e => e.id !== selected_exercise.id);
     const workouts = [ ...this.state.workouts ];
 
     workouts[workout_index].exercises = new_exercises;
     this.setState({ workouts });
 
     try {
-      await deleteCompletedExercise(selected_exercise._id);
+      await deleteTargetExercise(selected_exercise.id);
     } catch (exception) {
       if (exception.response && exception.response.status === 404) {
         alert("This exercise has already been deleted.");
@@ -107,16 +117,17 @@ class WorkoutIndex extends Component {
   getSelectedMuscles() {
     let muscle_ids = [];
     if (this.state.current_workout.exercises === undefined) { return []; }
-    const completed_exercises = this.state.current_workout.exercises;
+    const target_exercises = this.state.current_workout.exercises;
     const muscles = this.state.muscles;
+    const exercises = this.state.exercises;
     let muscle_names = {};
     let selected_muscles = [];
 
-    for (let completed_exercise of completed_exercises) {
-      muscle_ids.push(completed_exercise.exercise_id.muscle_id);
+    for (let target_exercise of target_exercises) {
+      muscle_ids.push(exercises[target_exercise.exerciseId].muscleId);
     }
     for (let muscle of muscles){
-      muscle_names[muscle._id] = muscle.name;
+      muscle_names[muscle.id] = muscle.name;
     }
     for (let muscle_id of muscle_ids) {
       let name = muscle_names[muscle_id];
@@ -136,8 +147,8 @@ class WorkoutIndex extends Component {
     return (
       <Spinner ready={this.state.api_response}>
         <h4>
-          {current_workout.date ?
-            `Workout Date: ${reformatDate(current_workout.date)}` :
+          {current_workout.name ?
+            `Workout Name: ${current_workout.name}` :
             `Select a Workout`}
         </h4>
         <MuscleMap

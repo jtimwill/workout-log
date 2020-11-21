@@ -8,15 +8,15 @@ export function getWorkout(workout_id) {
   return http.get(`/workouts/${workout_id}`);
 };
 
-export function saveWorkout(workout) {
-  return http.post("/workouts", { date: workout.date });
+export function saveWorkout(workout_obj) {
+  return http.post("/workouts", workout_obj);
 };
 
 export function deleteWorkout(workout_id) {
   return http.delete(`/workouts/${workout_id}`);
 };
 
-export function updateWorkout(workout) {
+export function updateWorkout(workout_obj) {
   const id = workout.id;
-  return http.put(`/workouts/${id}`, { date: workout.date });
+  return http.put(`/workouts/${id}`, workout_obj);
 };

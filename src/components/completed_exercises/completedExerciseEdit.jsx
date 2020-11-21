@@ -2,20 +2,22 @@ import React, { Component } from 'react';
 import Joi from 'joi-browser';
 import { getCompletedExercise, updateCompletedExercise } from '../../services/completedExerciseService.js';
 import { getExercises } from '../../services/exerciseService.js';
+import { validateStateObject, updateErrorObject } from '../../utilities/validationUtility.js';
+
 
 class CompletedExerciseEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
       completed_exercise: {
-        _id: "",
-        exercise_id: "",
+        id: "",
+        completedWorkoutId: "",
+        exerciseId: "",
         exercise_type: "",
         sets: 0,
         reps: 0,
         load: 0,
         unilateral: false,
-        mum: false
       },
       exercises: [],
       errors: {}
@@ -32,9 +34,9 @@ class CompletedExerciseEdit extends Component {
   ];
 
   schema = {
-    _id: Joi.string(),
-    workout_id: Joi.string().required().label("Workout"),
-    exercise_id: Joi.string().required().label("Exercise"),
+    id: Joi.string(),
+    completedWorkoutId: Joi.string().required().label("Workout"),
+    exerciseId: Joi.string().required().label("Exercise"),
     exercise_type: Joi.string().label("Exercise Type"),
     sets: Joi.number().required().min(1).label("Sets"),
     reps: Joi.number().required().min(1).label("Reps"),
@@ -44,53 +46,30 @@ class CompletedExerciseEdit extends Component {
   };
 
   async componentDidMount() {
-    const { data } = await getCompletedExercise(this.props.match.params.id);
+    const wid = this.props.match.params.wid;
+    const id = this.props.match.params.id;
+    const { data } = await getCompletedExercise(wid, id);
     const completed_exercise = {
-      _id: data._id,
-      workout_id: data.workout_id,
-      exercise_id: data.exercise_id,
+      id: String(data.id),
+      completedWorkoutId: String(data.completedWorkoutId),
+      exerciseId: data.exerciseId,
       exercise_type: data.exercise_type,
       sets: data.sets,
       reps: data.reps,
       load: data.load,
       unilateral: data.unilateral,
-      mum: data.mum
     };
     const { data: exercises } = await getExercises();
+    console.log(exercises[0]);
+
     this.setState({ completed_exercise, exercises });
-  }
-
-  validate() {
-    const completed_exercise = this.state.completed_exercise;
-    const options = { abortEarly: false };
-    const { error: errors } = Joi.validate(completed_exercise, this.schema, options);
-    if (!errors) return null;
-
-    const found_errors = {};
-    for (let error of errors.details) {
-      found_errors[error.path[0]] = error.message;
-    }
-    return found_errors;
-  }
-
-  validateProperty({ name, value }) {
-    const obj = { [name]: value };
-    const schema = { [name]: this.schema[name] };
-    const { error } = Joi.validate(obj, schema);
-    return error ? error.details[0].message : null;
   }
 
   handleChange(event) {
     const errors = { ...this.state.errors };
     const target = event.currentTarget;
-
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const errorMessage = this.validateProperty(target);
-    if (errorMessage) {
-      errors[target.name] = errorMessage;
-    } else {
-      delete errors[target.name];
-    }
+    updateErrorObject(event, errors, this.schema);
 
     const completed_exercise = { ...this.state.completed_exercise };
     completed_exercise[target.name] = value;
@@ -101,15 +80,16 @@ class CompletedExerciseEdit extends Component {
   async handleSubmit(event) {
     event.preventDefault();
 
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
+    const errors = validateStateObject(this.state.completed_exercise, this.schema);
     if (errors) {
+      this.setState({ errors });
       return;
     }
+    this.setState({ errors: {} });
 
     try {
       await updateCompletedExercise(this.state.completed_exercise);
-      this.props.history.push("/workouts/index");
+      this.props.history.push("/completed_workouts/index");
     } catch (exception) {
       if (exception.response && exception.response.status === 400) {
         alert(exception.response.data.errmsg);
@@ -126,20 +106,21 @@ class CompletedExerciseEdit extends Component {
             <div className="form-group">
               <label htmlFor="inputGroupExerciseId">Exercise</label>
               <select
-                value={this.state.completed_exercise.exercise_id}
-                name="exercise_id"
+                value={this.state.completed_exercise.exerciseId}
+                name="exerciseId"
                 className="form-control"
                 id="inputGroupExerciseId"
                 onChange={this.handleChange}
                 >
-                <option value=""/>
+                <option value="">
+                </option>
                 {this.state.exercises.map(exercise => (
-                  <option key={exercise._id} value={exercise._id}>
+                  <option key={exercise.id} value={exercise.id}>
                     {exercise.name}
                   </option>
                 ))}
               </select>
-              {this.state.errors.exercise_id && <div className="alert alert-danger">{this.state.errors.exercise_id}</div>}
+              {this.state.errors.exerciseId && <div className="alert alert-danger">{this.state.errors.exerciseId}</div>}
             </div>
             <div className="form-group">
               <label htmlFor="inputGroupExerciseType">Exercise Types</label>
@@ -207,19 +188,6 @@ class CompletedExerciseEdit extends Component {
               />
               <label className="form-check-label" htmlFor="exampleCheck1">Unilateral?</label>
               {this.state.errors.unilateral && <div className="alert alert-danger">{this.state.errors.unilateral}</div>}
-            </div>
-            <div className="form-group form-check">
-              <input
-                name="mum"
-                type="checkbox"
-                checked={this.state.completed_exercise.mum}
-                className="form-check-input"
-                id="exampleCheck2"
-                value={this.state.completed_exercise.mum}
-                onChange={this.handleChange}
-              />
-              <label className="form-check-label" htmlFor="exampleCheck2">MUM?</label>
-              {this.state.errors.mum && <div className="alert alert-danger">{this.state.errors.mum}</div>}
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
           </div>

@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import NavBar from './components/navBar';
@@ -9,11 +8,16 @@ import UserIndex from './components/users/userIndex';
 import UserNew from './components/users/userNew';
 import UserEdit from './components/users/userEdit';
 import UserShow from './components/users/userShow';
-import CompletedWorkoutIndex from './components/completed_workouts/workoutIndex';
-import CompletedWorkoutNew from './components/completed_workouts/workoutNew';
-import CompletedWorkoutEdit from './components/completed_workouts/workoutEdit';
+import CompletedWorkoutIndex from './components/completed_workouts/completedWorkoutIndex';
+import CompletedWorkoutNew from './components/completed_workouts/completedWorkoutNew';
+import CompletedWorkoutEdit from './components/completed_workouts/completedWorkoutEdit';
 import CompletedExerciseNew from './components/completed_exercises/completedExerciseNew';
 import CompletedExerciseEdit from './components/completed_exercises/completedExerciseEdit';
+import WorkoutIndex from './components/workouts/workoutIndex';
+import WorkoutNew from './components/workouts/workoutNew';
+import WorkoutEdit from './components/workouts/workoutEdit';
+import TargetExerciseNew from './components/target_exercises/targetExerciseNew';
+import TargetExerciseEdit from './components/target_exercises/targetExerciseEdit';
 import MuscleIndex from './components/muscles/muscleIndex';
 import MuscleNew from './components/muscles/muscleNew';
 import MuscleEdit from './components/muscles/muscleEdit';
@@ -66,13 +70,38 @@ class App extends Component {
               redirect_path="/login"
             />
             <ProtectedRoute
-              path="/workouts/:id/completed_exercise"
+              path="/completed_workouts/:wid/completed_exercise/:id/edit"
+              component={CompletedExerciseEdit}
+              redirect_path="/login"
+            />
+            <ProtectedRoute
+              path="/completed_workouts/:wid/completed_exercise"
               component={CompletedExerciseNew}
               redirect_path="/login"
             />
             <ProtectedRoute
-              path="/completed_exercise/:id/edit"
-              component={CompletedExerciseEdit}
+              path="/workouts/index"
+              component={WorkoutIndex}
+              redirect_path="/login"
+            />
+            <ProtectedRoute
+              path="/workouts/new"
+              component={WorkoutNew}
+              redirect_path="/login"
+            />
+            <ProtectedRoute
+              path="/workouts/:id/edit"
+              component={WorkoutEdit}
+              redirect_path="/login"
+            />
+            <ProtectedRoute
+              path="/workouts/:wid/target_exercise/:id/edit"
+              component={TargetExerciseEdit}
+              redirect_path="/login"
+            />
+            <ProtectedRoute
+              path="/workouts/:wid/target_exercise"
+              component={TargetExerciseNew}
               redirect_path="/login"
             />
             <ProtectedRoute

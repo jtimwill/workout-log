@@ -12,23 +12,22 @@ const WorkoutBody = ({ workout, current_workout, onExerciseDelete, index }) => {
   }
 
   function formatInfo(ex) {
-    const info = `${ex.exercise_id.name}: ${ex.sets}x${ex.reps} ${ex.load}lbs`;
+    const info = `${ex.name}: ${ex.sets}x${ex.reps} ${ex.load}lbs`;
     const type = ex.exercise_type;
     return `${info} ${type}`;
   }
 
   return (
     <div>
-      {workout.exercises.map(exercise => (
-        <div key={exercise._id} className={getCSSClass(workout, current_workout)}>
+      {workout.target_exercises.map(exercise => (
+        <div key={exercise.id} className={getCSSClass(workout, current_workout)}>
           <div className="card-body">
             <div className="d-flex flex-row align-items-center justify-content-between">
               <div className="w-50">{formatInfo(exercise)}</div>
               <div>
                 {exercise.unilateral ? <span className={badge}> U </span> : ""}
-                {exercise.mum ? <span className={badge}> M</span> : ""}
                 <Link
-                  to={`/completed_exercise/${exercise._id}/edit`}
+                  to={`/target_exercise/${exercise.id}/edit`}
                   className={`${btn}info mx-1`}
                 >
                   <i className={`${fa}pencil-square-o`}></i>

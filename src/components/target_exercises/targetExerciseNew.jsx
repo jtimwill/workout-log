@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import Joi from 'joi-browser';
-import { saveCompletedExercise } from '../../services/completedExerciseService.js';
+import { saveTargetExercise } from '../../services/targetExerciseService.js';
 import { getExercises } from '../../services/exerciseService.js';
 import { validateStateObject, updateErrorObject } from '../../utilities/validationUtility.js';
 
 
-class CompletedExerciseNew extends Component {
+class TargetExerciseNew extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      completed_exercise: {
-        completedWorkoutId: "",
+      target_exercise: {
+        workoutId: "",
         exerciseId: "",
         exercise_type: "",
         sets: 0,
@@ -33,7 +33,7 @@ class CompletedExerciseNew extends Component {
   ];
 
   schema = {
-    completedWorkoutId: Joi.string().required().label("Workout"),
+    workoutId: Joi.string().required().label("Workout"),
     exerciseId: Joi.string().required().label("Exercise"),
     exercise_type: Joi.string().label("Exercise Type"),
     sets: Joi.number().required().min(1).label("Sets"),
@@ -44,9 +44,9 @@ class CompletedExerciseNew extends Component {
   };
 
   async componentDidMount() {
-    const completed_exercise = { ...this.state.completed_exercise };
-    completed_exercise.completedWorkoutId = this.props.match.params.wid;
-    this.setState({ completed_exercise });
+    const target_exercise = { ...this.state.target_exercise };
+    target_exercise.workoutId = this.props.match.params.wid;
+    this.setState({ target_exercise });
     const { data: exercises } = await getExercises();
     this.setState({ exercises });
   }
@@ -57,16 +57,16 @@ class CompletedExerciseNew extends Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     updateErrorObject(event, errors, this.schema);
 
-    const completed_exercise = { ...this.state.completed_exercise };
-    completed_exercise[target.name] = value;
+    const target_exercise = { ...this.state.target_exercise };
+    target_exercise[target.name] = value;
 
-    this.setState({ completed_exercise, errors });
+    this.setState({ target_exercise, errors });
   }
 
   async handleSubmit(event) {
     event.preventDefault();
 
-    const errors = validateStateObject(this.state.completed_exercise, this.schema);
+    const errors = validateStateObject(this.state.target_exercise, this.schema);
     if (errors) {
       this.setState({ errors });
       return;
@@ -74,8 +74,8 @@ class CompletedExerciseNew extends Component {
     this.setState({ errors: {} });
 
     try {
-      await saveCompletedExercise(this.state.completed_exercise);
-      this.props.history.push("/completed_workouts/index");
+      await saveTargetExercise(this.state.target_exercise);
+      this.props.history.push("/workouts/index");
     } catch (exception) {
       if (exception.response && exception.response.status === 400) {
         alert(exception.response.data.errmsg);
@@ -88,7 +88,7 @@ class CompletedExerciseNew extends Component {
       <div>
         <form onSubmit={this.handleSubmit} className="card bg-light">
           <div className="card-body">
-            <h4>New Completed Exercise</h4>
+            <h4>New Target Exercise</h4>
             <div className="form-group">
               <label htmlFor="inputGroupExerciseId">Exercise</label>
               <select
@@ -131,7 +131,7 @@ class CompletedExerciseNew extends Component {
                 type="number"
                 className="form-control"
                 id="exampleInputSets"
-                value={this.state.completed_exercise.sets}
+                value={this.state.target_exercise.sets}
                 onChange={this.handleChange}
               />
               {this.state.errors.sets && <div className="alert alert-danger">{this.state.errors.sets}</div>}
@@ -143,7 +143,7 @@ class CompletedExerciseNew extends Component {
                 type="number"
                 className="form-control"
                 id="exampleInputReps"
-                value={this.state.completed_exercise.reps}
+                value={this.state.target_exercise.reps}
                 onChange={this.handleChange}
               />
               {this.state.errors.reps && <div className="alert alert-danger">{this.state.errors.reps}</div>}
@@ -155,7 +155,7 @@ class CompletedExerciseNew extends Component {
                 type="number"
                 className="form-control"
                 id="exampleInputLoad"
-                value={this.state.completed_exercise.load}
+                value={this.state.target_exercise.load}
                 onChange={this.handleChange}
               />
               {this.state.errors.load && <div className="alert alert-danger">{this.state.errors.load}</div>}
@@ -166,7 +166,7 @@ class CompletedExerciseNew extends Component {
                 type="checkbox"
                 className="form-check-input"
                 htmlFor="exampleCheck1"
-                value={this.state.completed_exercise.unilateral}
+                value={this.state.target_exercise.unilateral}
                 onChange={this.handleChange}
               />
               <label className="form-check-label" htmlFor="exampleCheck1">Unilateral?</label>
@@ -180,4 +180,4 @@ class CompletedExerciseNew extends Component {
   }
 }
 
-export default CompletedExerciseNew;
+export default TargetExerciseNew;

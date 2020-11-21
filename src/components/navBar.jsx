@@ -51,8 +51,11 @@ class NavBar extends Component {
                 <NavLink className="nav-item nav-link" to="/users/me/show">
                   Profile
                 </NavLink>
-                <NavLink className="nav-item nav-link" to="/workouts/index">
+                <NavLink className="nav-item nav-link" to="/completed_workouts/index">
                   WorkoutLog
+                </NavLink>
+                <NavLink className="nav-item nav-link" to="/workouts/index">
+                  Workouts
                 </NavLink>
                 <NavLink className="nav-item nav-link" to="/exercises/index">
                   ExerciseFinder
