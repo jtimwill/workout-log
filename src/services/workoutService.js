@@ -17,6 +17,6 @@ export function deleteWorkout(workout_id) {
 };
 
 export function updateWorkout(workout_obj) {
-  const id = workout.id;
+  const id = workout_obj.id;
   return http.put(`/workouts/${id}`, workout_obj);
 };

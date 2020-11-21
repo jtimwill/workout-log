@@ -29,7 +29,11 @@ class WorkoutEdit extends Component {
   async componentDidMount() {
     const workout_id = this.props.match.params.id;
     try {
-      const { data: workout } = await getWorkout(workout_id);
+      const { data } = await getWorkout(workout_id);
+      const workout = {
+        id: String(data.id),
+        name: data.name,
+      };
       this.setState({ workout });
     } catch (exception) {
       if (exception.response && exception.response.status === 404) {
