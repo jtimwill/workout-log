@@ -62,20 +62,20 @@ class WorkoutIndex extends Component {
 
   handleExerciseDelete = async (workout_index, selected_exercise) => {
     if (!this.confirmDelete("exercise")) { return; }
-    const old_exercises = this.state.workouts[workout_index].exercises;
+    const old_exercises = this.state.workouts[workout_index].target_exercises;
     const new_exercises = old_exercises.filter(e => e.id !== selected_exercise.id);
     const workouts = [ ...this.state.workouts ];
 
-    workouts[workout_index].exercises = new_exercises;
+    workouts[workout_index].target_exercises = new_exercises;
     this.setState({ workouts });
 
     try {
-      await deleteTargetExercise(selected_exercise.id);
+      await deleteTargetExercise(selected_exercise);
     } catch (exception) {
       if (exception.response && exception.response.status === 404) {
         alert("This exercise has already been deleted.");
       }
-      workouts[workout_index].exercises = old_exercises
+      workouts[workout_index].target_exercises = old_exercises
       this.setState({ workouts });
     }
   }
@@ -116,8 +116,8 @@ class WorkoutIndex extends Component {
 
   getSelectedMuscles() {
     let muscle_ids = [];
-    if (this.state.current_workout.exercises === undefined) { return []; }
-    const target_exercises = this.state.current_workout.exercises;
+    if (this.state.current_workout.target_exercises === undefined) { return []; }
+    const target_exercises = this.state.current_workout.target_exercises;
     const muscles = this.state.muscles;
     const exercises = this.state.exercises;
     let muscle_names = {};
@@ -166,7 +166,7 @@ class WorkoutIndex extends Component {
 
         {this.generatePage(current_page, page_size).map((workout, index) => (
           <div
-            key={workout._id}
+            key={workout.id}
             className={"my-1 card " + (workout === current_workout ? "border-primary" : "")}
           >
             <WorkoutHead

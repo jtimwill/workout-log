@@ -27,7 +27,7 @@ const WorkoutBody = ({ workout, current_workout, onExerciseDelete, index }) => {
               <div>
                 {exercise.unilateral ? <span className={badge}> U </span> : ""}
                 <Link
-                  to={`/target_exercise/${exercise.id}/edit`}
+                  to={`/workouts/${workout.id}/target_exercise/${exercise.id}/edit`}
                   className={`${btn}info mx-1`}
                 >
                   <i className={`${fa}pencil-square-o`}></i>
