@@ -40,6 +40,7 @@ Additional resources that helped me:
 - https://favicon.io/
 - https://codepen.io/websitebeaver/pen/oLGGNz
 - https://stackoverflow.com/questions/16201948/how-to-exclude-particular-class-name-in-css-selector/16202009
+- https://blog.heroku.com/deploying-react-with-zero-configuration
 
 ## Project Setup
 
