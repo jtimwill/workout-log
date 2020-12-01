@@ -5,7 +5,7 @@ import { deleteCompletedExercise } from '../../services/completedExerciseService
 import { getMuscles } from '../../services/muscleService.js';
 import { getWorkouts } from '../../services/workoutService.js';
 import { getExercises } from '../../services/exerciseService.js';
-import { compareDates } from '../../utilities/sortUtility.js';
+import { compareDates, compareNames } from '../../utilities/sortUtility.js';
 import { reformatDate } from '../../utilities/dateUtility.js';
 import './completedWorkout.css';
 import Pagination from '../reusable/pagination';
@@ -37,6 +37,7 @@ class CompletedWorkoutIndex extends Component {
       for(let ce of cw.completed_exercises) {
         ce.name = exercises[ce.exerciseId-1].name;
       }
+      cw.completed_exercises.sort(compareNames);
     }
     completed_workouts.sort(compareDates);
     this.setState({ completed_workouts, exercises, workouts, muscles, api_response: true });
@@ -150,51 +151,62 @@ class CompletedWorkoutIndex extends Component {
 
     return (
       <Spinner ready={this.state.api_response}>
-        <h4>
-          {current_completed_workout.date ?
-            `Workout Date: ${reformatDate(current_completed_workout.date)}` :
-            `Select a Workout`}
-        </h4>
-        <MuscleMap
-          current_muscles={this.getSelectedMuscles()}
-          onMuscleSelect={() => {}}
-        />
-
-        <Link to="/completed_workouts/new" className="btn btn-primary mr-1">
-          New Completed Workout
-        </Link>
-        <button onClick={this.toggleSort} className="btn btn-info btn-sm">
-          {"Sort by date "}
-          <i className={"fa fa-sort-" + sort_direction}></i>
-        </button>
-
-        {this.generatePage(current_page, page_size).map((completed_workout, index) => (
-          <div
-            key={completed_workout.id}
-            className={"my-1 card " + (completed_workout === current_completed_workout ? "border-primary" : "")}
-          >
-            <CompletedWorkoutHead
-              workout_name={completed_workout.name}
-              completed_workout={completed_workout}
-              onCompletedWorkoutSelect={this.handleCompletedWorkoutSelect}
-              onCompletedWorkoutDelete={this.handleCompletedWorkoutDelete}
-            />
-
-            <CompletedWorkoutBody
-              completed_workout={completed_workout}
-              current_completed_workout={current_completed_workout}
-              onExerciseDelete={this.handleExerciseDelete}
-              index={index}
-            />
+        <div className="custom-max-width">
+          <div className="card my-2">
+            <div className="card-header bg-light">
+              <h5 className="card-title">
+                {current_completed_workout.date ?
+                `Workout Date: ${reformatDate(current_completed_workout.date)}` :
+                `Select a Workout`}
+              </h5>
+            </div>
+            <div className="card-body">
+              <MuscleMap
+                current_muscles={this.getSelectedMuscles()}
+                onMuscleSelect={() => {}}
+              />
+            </div>
+            <ul className="list-group list-group-flush">
+            </ul>
+            <div className="card-body">
+              <Link to="/completed_workouts/new" className="btn btn-primary mr-1">
+                New Completed Workout
+              </Link>
+              <button onClick={this.toggleSort} className="btn btn-info btn-sm">
+                {"Sort by date "}
+                <i className={"fa fa-sort-" + sort_direction}></i>
+              </button>
+            </div>
           </div>
-        ))}
 
-        <Pagination
-          page_size={page_size}
-          item_count={completed_workouts.length}
-          current_page={current_page}
-          onPageChange={this.handlePageChange}
-        />
+          {this.generatePage(current_page, page_size).map((completed_workout, index) => (
+            <div
+              key={completed_workout.id}
+              className={"my-1 card " + (completed_workout === current_completed_workout ? "border-primary" : "")}
+            >
+              <CompletedWorkoutHead
+                workout_name={completed_workout.name}
+                completed_workout={completed_workout}
+                onCompletedWorkoutSelect={this.handleCompletedWorkoutSelect}
+                onCompletedWorkoutDelete={this.handleCompletedWorkoutDelete}
+              />
+
+              <CompletedWorkoutBody
+                completed_workout={completed_workout}
+                current_completed_workout={current_completed_workout}
+                onExerciseDelete={this.handleExerciseDelete}
+                index={index}
+              />
+            </div>
+          ))}
+
+          <Pagination
+            page_size={page_size}
+            item_count={completed_workouts.length}
+            current_page={current_page}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
       </Spinner>
     );
   }

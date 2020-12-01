@@ -29,6 +29,10 @@
   margin-right: 10px;
 }
 
+.custom-add-margin-bottom {
+  margin-bottom: 10px;
+}
+
 .table {
   width: 100%;
   margin-top: 1rem;
@@ -88,4 +92,9 @@ form {
 
 .custom-hover-cursor:hover {
   cursor: pointer;
+}
+
+.custom-max-width {
+  max-width: 1000px;
+  margin: auto;
 }
