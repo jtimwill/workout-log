@@ -41,6 +41,7 @@ Additional resources that helped me:
 - https://codepen.io/websitebeaver/pen/oLGGNz
 - https://stackoverflow.com/questions/16201948/how-to-exclude-particular-class-name-in-css-selector/16202009
 - https://blog.heroku.com/deploying-react-with-zero-configuration
+- https://devcenter.heroku.com/articles/renaming-apps
 
 ## Project Setup
 
@@ -181,11 +182,30 @@ These functions connect the React UI to the Node API.
 | deleteWorkout | DELETE /workouts/:id | Delete specified workout |
 | updateWorkout | PUT /workouts/:id    | Update specified workout |
 
+### TargetExercise Service
+
+| Function             | API URL                                           | Result                           |
+| -------------------- | ------------------------------------------------- | -------------------------------- |
+| getTargetExercise    | GET /workouts/wid/target_exercises/:id            | Return specific target exercise  |
+| saveTargetExercise   | POST /workouts/wid/target/:id/completed_exercises | Create new target exercise       |
+| deleteTargetExercise | DELETE /workouts/wid/target_exercises/:id         | Delete specified target exercise |
+| updateTargetExercise | PUT /workouts/wid/target_exercises/:id            | Update specified target exercise |
+
+### CompletedWorkout Service
+
+| Function               | API URL                        | Result                             |
+| ---------------------- | ------------------------------ | ---------------------------------- |
+| getCompletedWorkouts   | GET /completed_workouts        | Return all completed workouts      |
+| getCompletedWorkout    | GET /completed_workouts/:id    | Return specific completed workout  |
+| saveCompletedWorkout   | POST /completed_workouts       | Create new completed workout       |
+| deleteCompletedWorkout | DELETE /completed_workouts/:id | Delete specified completed workout |
+| updateCompletedWorkout | PUT /completed_workouts/:id    | Update specified completed workout |
+
 ### CompletedExercise Service
 
-| Function                | API URL                                | Result                              |
-| ----------------------- | -------------------------------------- | ----------------------------------- |
-| getCompletedExercise    | GET /completed_exercises/:id           | Return specific completed exercise  |
-| saveCompletedExercise   | POST /workouts/:id/completed_exercises | Create new completed exercise       |
-| deleteCompletedExercise | DELETE /completed_exercises/:id        | Delete specified completed exercise |
-| updateWorkout           | PUT /completed_exercises/:id           | Update specified completed exercise |
+| Function                | API URL                                                       | Result                              |
+| ----------------------- | ------------------------------------------------------------- | ----------------------------------- |
+| getCompletedExercise    | GET /completed_workouts/wid/completed_exercises/:id           | Return specific completed exercise  |
+| saveCompletedExercise   | POST /completed_workouts/wid/workouts/:id/completed_exercises | Create new completed exercise       |
+| deleteCompletedExercise | DELETE /completed_workouts/wid/completed_exercises/:id        | Delete specified completed exercise |
+| updateCompletedExercise | PUT /completed_workouts/wid/completed_exercises/:id           | Update specified completed exercise |
