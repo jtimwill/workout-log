@@ -146,24 +146,33 @@ class WorkoutIndex extends Component {
 
     return (
       <Spinner ready={this.state.api_response}>
-        <h4>
-          {current_workout.name ?
-            `Workout Name: ${current_workout.name}` :
-            `Select a Workout`}
-        </h4>
-        <MuscleMap
-          current_muscles={this.getSelectedMuscles()}
-          onMuscleSelect={() => {}}
-        />
-
-        <Link to="/workouts/new" className="btn btn-primary mr-1">
-          New Workout
-        </Link>
-        <button onClick={this.toggleSort} className="btn btn-info btn-sm">
-          {"Sort by date "}
-          <i className={"fa fa-sort-" + sort_direction}></i>
-        </button>
-
+        <div className="custom-max-width">
+          <div className="card my-2">
+            <div className="card-header bg-light">
+              <h4 className="card-title">
+                {current_workout.name ?
+                  `Workout Name: ${current_workout.name}` :
+                  `Select a Workout`}
+              </h4>
+            </div>
+            <div className="card-body">
+              <MuscleMap
+                current_muscles={this.getSelectedMuscles()}
+                onMuscleSelect={() => {}}
+              />
+            </div>
+            <ul className="list-group list-group-flush">
+            </ul>
+            <div className="card-body">
+              <Link to="/workouts/new" className="btn btn-primary mr-1">
+                New Workout
+              </Link>
+              <button onClick={this.toggleSort} className="btn btn-info btn-sm">
+                {"Sort by date "}
+                <i className={"fa fa-sort-" + sort_direction}></i>
+              </button>
+            </div>
+          </div>
         {this.generatePage(current_page, page_size).map((workout, index) => (
           <div
             key={workout.id}
@@ -190,6 +199,7 @@ class WorkoutIndex extends Component {
           current_page={current_page}
           onPageChange={this.handlePageChange}
         />
+        </div>
       </Spinner>
     );
   }

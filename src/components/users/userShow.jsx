@@ -5,6 +5,7 @@ import { getCompletedWorkouts } from '../../services/completedWorkoutService.js'
 import Spinner from '../reusable/spinner';
 import { Line } from 'react-chartjs-2';
 import { reformatDate } from '../../utilities/dateUtility.js';
+import { compareDates } from '../../utilities/sortUtility.js';
 
 class UserShow extends Component {
   state = {
@@ -44,11 +45,13 @@ class UserShow extends Component {
     const { data: user } = await getUser();
     const { data: completed_workouts } = await getCompletedWorkouts();
 
-    completed_workouts.forEach((cw) => {
+    completed_workouts.sort(compareDates);
+    const comp_workout_slice = completed_workouts.slice(-10);
+    comp_workout_slice.forEach((cw) => {
       this.chart_data.labels.push(reformatDate(cw.date));
       this.chart_data.datasets[0].data.push(cw.completed_exercises.length);
     });
-
+    
     this.setState({ user, completed_workouts, api_response: true });
   }
 
@@ -69,7 +72,7 @@ class UserShow extends Component {
               {this.state.user.email}
             </li>
             <li className="list-group-item">
-              <span className="font-weight-bold">Completed Workouts: </span>
+              <span className="font-weight-bold">Total Completed Workouts: </span>
               {this.state.completed_workouts.length}
             </li>
           </ul>
@@ -78,10 +81,7 @@ class UserShow extends Component {
             <ul className="list-group list-group-flush">
               <li className="list-group-item d-flex justify-content-around">
                 <span className="card-text">
-                  <span className="font-weight-bold">Days Tracked: </span>{this.state.completed_workouts.length}
-                </span>
-                <span className="card-text">
-                  <span className="font-weight-bold">Exercises Completed: </span>
+                  <span className="font-weight-bold">Days Tracked: </span>10
                 </span>
               </li>
             </ul>

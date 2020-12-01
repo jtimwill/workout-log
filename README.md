@@ -1,70 +1,190 @@
-# Getting Started with Create React App
+# WorkoutLogger
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Description
 
-## Available Scripts
+This is a simple user interface for my Workout API project. The structure of
+this project is based on what I learned in the following course: https://codewithmosh.com/p/mastering-react
 
-In the project directory, you can run:
+The basic technology stack is:
 
-### `npm start`
+- React (UI Library)
+- Bootstrap (front-end component library)
+- Joi-browser (user-input validation)
+- React-router-dom (routing)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Additional resources that helped me:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- https://stackoverflow.com/questions/10123953/sort-javascript-object-array-by-date
+- https://stackoverflow.com/questions/679915/how-do-i-test-for-an-empty-javascript-object
+- https://www.learnenough.com/css-and-layout-tutorial
+- https://reacttraining.com/react-router/web/example/auth-workflow
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+- https://www.w3schools.com/howto/howto_css_loader.asp
+- https://stackoverflow.com/questions/8549529/what-is-the-difference-between-screen-and-only-screen-in-media-queries
+- https://www.learnenough.com/css-and-layout-tutorial?single_page=1#sec-details-mobile-dropdown
+- https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions#Defining_transitions
+- https://www.w3schools.com/jsref/met_win_confirm.asp
+- https://gist.github.com/primaryobjects/aacf6fa49823afb2f6ff065790a5b402
+- https://reacttraining.com/react-router/web/example/query-parameters
+- https://github.com/jerairrest/react-chartjs-2
+- https://stackoverflow.com/questions/44154939/load-local-images-in-react-js
+- https://stackoverflow.com/questions/3518002/how-can-i-set-the-default-value-for-an-html-select-element
+- https://getbootstrap.com/docs/4.0/
+- https://github.com/reactchartjs/react-chartjs-2
+- https://lottiefiles.com/15514-dumbell-animation
+- https://github.com/chenqingspring/react-lottie
+- https://lottiefiles.com/user/6833
+- https://lottiefiles.com/21460-exercises
+- https://stackoverflow.com/questions/61845933/react-lottie-not-showing-animation-not-showing-web
+- https://www.w3schools.com/jsref/jsref_slice_array.asp
+- https://favicon.io/
+- https://codepen.io/websitebeaver/pen/oLGGNz
+- https://stackoverflow.com/questions/16201948/how-to-exclude-particular-class-name-in-css-selector/16202009
 
-### `npm test`
+## Project Setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Install Node.js: https://nodejs.org/
+2. Download project files
+3. `$ cd workout-logger` # navigate to the project's root directory
+4. `$ npm i` # install the packages listed in package.json
+5. `$ npm start` # start server
+6. Done. If you have also set up the corresponding Workout API project, you can navigate to http://localhost:3000/ to test the full project.
 
-### `npm run build`
+## Routes and Components
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Login/Logout
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| URL     | Corresponding Component |
+| ------- | ----------------------- |
+| /login  | Login                   |
+| /logout | Logout                  |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Users Resource
 
-### `npm run eject`
+| URL            | Corresponding Component |
+| -------------- | ----------------------- |
+| /users/index   | UserIndex               |
+| /users/me/edit | UserNew                 |
+| /users/me/show | UserShow                |
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Workouts Resource
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| URL                | Corresponding Component |
+| ------------------ | ----------------------- |
+| /workouts/index    | WorkoutIndex            |
+| /workouts/new      | WorkoutNew              |
+| /workouts/:id/edit | WorkoutEdit             |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### TargetExercises Resource
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+| URL                                     | Corresponding Component |
+| --------------------------------------- | ----------------------- |
+| /workouts/:wid/target_exercise/:id/edit | TargetExerciseEdit      |
+| /workouts/:wid/target_exercise          | TargetExerciseNew       |
 
-## Learn More
+### CompletedWorkouts Resource
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| URL                          | Corresponding Component |
+| ---------------------------- | ----------------------- |
+| /completed_workouts/index    | CompletedWorkoutIndex   |
+| /completed_workouts/new      | CompletedWorkoutNew     |
+| /completed_workouts/:id/edit | CompletedWorkoutEdit    |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### CompletedExercises Resource
 
-### Code Splitting
+| URL                                                  | Corresponding Component |
+| ---------------------------------------------------- | ----------------------- |
+| /completed_workouts/:wid/completed_exercise/:id/edit | CompletedExerciseEdit   |
+| /completed_workouts/:wid/completed_exercise          | CompletedExerciseNew    |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Muscles Resource
 
-### Analyzing the Bundle Size
+| URL               | Corresponding Component |
+| ----------------- | ----------------------- |
+| /muscles/index    | MuscleIndex             |
+| /muscles/new      | MuscleNew               |
+| /muscles/:id/edit | MuscleEdit              |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Exercises Resource
 
-### Making a Progressive Web App
+| URL                 | Corresponding Component |
+| ------------------- | ----------------------- |
+| /exercises/index    | ExerciseIndex           |
+| /exercises/new      | ExerciseNew             |
+| /exercises/:id/edit | ExerciseEdit            |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Misc Components
 
-### Advanced Configuration
+| URL        | Corresponding Component |
+| ---------- | ----------------------- |
+| /          | HomePage                |
+| /not-found | NotFound                |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Services
 
-### Deployment
+These functions connect the React UI to the Node API.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Auth Service
 
-### `npm run build` fails to minify
+| Function       | API URL     | Result                                |
+| -------------- | ----------- | ------------------------------------- |
+| login          | POST /login | Authenticate user, save JWT on client |
+| logout         | N/A         | Delete JWT from client                |
+| loginWithJwt   | N/A         | Login without calling server          |
+| getCurrentUser | N/A         | Extract user data from JWT            |
+| getJwt         | N/A         | Return JWT from client                |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### HTTP Service
+
+| Function | API URL | Result                     |
+| -------- | ------- | -------------------------- |
+| setJwt   | N/A     | Add JWT to request headers |
+
+### User Service
+
+| Function   | API URL           | Result                |
+| ---------- | ----------------- | --------------------- |
+| getUsers   | GET /users        | Return all users      |
+| getUser    | GET /users/me     | Return logged-in user |
+| saveUser   | POST /users       | Create new user       |
+| deleteUser | DELETE /users/:id | Delete specified user |
+| updateUser | PUT /users/me     | Update logged-in user |
+
+### Muscle Service
+
+| Function     | API URL             | Result                  |
+| ------------ | ------------------- | ----------------------- |
+| getMuscles   | GET /muscles        | Return all muscles      |
+| getMuscle    | GET /muscles/:id    | Return specific muscle  |
+| saveMuscle   | POST /muscles       | Create new muscle       |
+| deleteMuscle | DELETE /muscles/:id | Delete specified muscle |
+| updateMuscle | PUT /muscles/:id    | Update specified muscle |
+
+### Exercise Service
+
+| Function       | API URL               | Result                    |
+| -------------- | --------------------- | ------------------------- |
+| getExercises   | GET /exercises        | Return all exercises      |
+| getExercise    | GET /exercises/:id    | Return specific exercise  |
+| saveExercise   | POST /exercises       | Create new exercise       |
+| deleteExercise | DELETE /exercises/:id | Delete specified exercise |
+| updateExercise | PUT /exercises/:id    | Update specified exercise |
+
+### Workout Service
+
+| Function      | API URL              | Result                   |
+| ------------- | -------------------- | ------------------------ |
+| getWorkouts   | GET /workouts        | Return all workouts      |
+| getWorkout    | GET /workouts/:id    | Return specific workout  |
+| saveWorkout   | POST /workouts       | Create new workout       |
+| deleteWorkout | DELETE /workouts/:id | Delete specified workout |
+| updateWorkout | PUT /workouts/:id    | Update specified workout |
+
+### CompletedExercise Service
+
+| Function                | API URL                                | Result                              |
+| ----------------------- | -------------------------------------- | ----------------------------------- |
+| getCompletedExercise    | GET /completed_exercises/:id           | Return specific completed exercise  |
+| saveCompletedExercise   | POST /workouts/:id/completed_exercises | Create new completed exercise       |
+| deleteCompletedExercise | DELETE /completed_exercises/:id        | Delete specified completed exercise |
+| updateWorkout           | PUT /completed_exercises/:id           | Update specified completed exercise |

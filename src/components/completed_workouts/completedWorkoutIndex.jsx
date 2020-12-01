@@ -154,11 +154,11 @@ class CompletedWorkoutIndex extends Component {
         <div className="custom-max-width">
           <div className="card my-2">
             <div className="card-header bg-light">
-              <h5 className="card-title">
+              <h4 className="card-title">
                 {current_completed_workout.date ?
                 `Workout Date: ${reformatDate(current_completed_workout.date)}` :
                 `Select a Workout`}
-              </h5>
+              </h4>
             </div>
             <div className="card-body">
               <MuscleMap
