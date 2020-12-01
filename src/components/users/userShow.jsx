@@ -10,7 +10,7 @@ class UserShow extends Component {
   state = {
     user: {},
     completed_workouts: [],
-    api_response: false
+    api_response: false,
   };
 
   chart_data = {

@@ -1,8 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { login } from '../services/authService';
+import Lottie from 'react-lottie';
+import * as animationData from './squat.json';
 
 const HomePage = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true, 
+    animationData: animationData.default,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
+
   async function exampleUserLogin() {
     await login("adam@example.com", "123456");
     window.location = "/users/me/show";
@@ -11,6 +22,7 @@ const HomePage = () => {
     <React.Fragment>
       <div className="jumbotron custom-center">
         <h1 className="display-4">Welcome to WorkoutLogger!</h1>
+        <Lottie options={defaultOptions} height={350} width={350}/>
         <p className="lead">
           This project provides users with a simple interface for creating,
           reviewing, updating and deleting workouts.
