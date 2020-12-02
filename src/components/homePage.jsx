@@ -21,7 +21,7 @@ const HomePage = () => {
   return(
     <React.Fragment>
       <div className="jumbotron custom-center">
-        <h1 className="display-4">Welcome to WorkoutLogger!</h1>
+        <h1 className="display-4">Welcome to WorkoutLog!</h1>
         <Lottie options={defaultOptions} height={350} width={350}/>
         <p className="lead">
           This project provides users with a simple interface for creating,

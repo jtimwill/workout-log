@@ -1,4 +1,4 @@
-# WorkoutLogger
+# WorkoutLog
 
 ## Project Description
 
@@ -47,7 +47,7 @@ Additional resources that helped me:
 
 1. Install Node.js: https://nodejs.org/
 2. Download project files
-3. `$ cd workout-logger` # navigate to the project's root directory
+3. `$ cd workout-log` # navigate to the project's root directory
 4. `$ npm i` # install the packages listed in package.json
 5. `$ npm start` # start server
 6. Done. If you have also set up the corresponding Workout API project, you can navigate to http://localhost:3000/ to test the full project.

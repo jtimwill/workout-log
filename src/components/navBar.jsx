@@ -27,7 +27,7 @@ class NavBar extends Component {
           onClick={this.handleToggler}>
           <span className="navbar-toggler-icon"></span>
         </button>
-        <Link className="navbar-brand" to="/">WorkoutLogger</Link>
+        <Link className="navbar-brand" to="/">WorkoutLog</Link>
         <div className="navbar-collapse" id="navbarNav">
           <div
             className={"navbar-nav custom-" + (this.state.show ? "show" : "hide")}
