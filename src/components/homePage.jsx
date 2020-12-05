@@ -11,7 +11,7 @@ import Spinner from './reusable/spinner';
 
 class HomePage extends Component {
   state = {
-    api_response: false
+    api_response: true
   };
 
   defaultOptions = {
@@ -23,10 +23,10 @@ class HomePage extends Component {
     }
   };
 
-  async componentDidMount() {
-    await getMuscles();
-    this.setState({ api_response: true });
-  }
+  // async componentDidMount() {
+  //   await getMuscles();
+  //   this.setState({ api_response: true });
+  // }
 
 
   async exampleUserLogin() {
