@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { reformatDate } from '../../utilities/dateUtility.js';
 
 const CompletedWorkoutHead = ({ workout_name, completed_workout, onCompletedWorkoutSelect, onCompletedWorkoutDelete }) => {
   const btn = "btn btn-";
@@ -12,7 +11,7 @@ const CompletedWorkoutHead = ({ workout_name, completed_workout, onCompletedWork
       className="card-header custom-hover-cursor"
       onClick={() => onCompletedWorkoutSelect(completed_workout)}>
       <div className="">
-        <span className="font-weight-bold">{reformatDate(completed_workout.date)} </span>
+        <span className="font-weight-bold">{completed_workout.date} </span>
         <span className="badge badge-pill badge-primary">
           {completed_workout.completed_exercises.length}
         </span>

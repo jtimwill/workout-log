@@ -46,7 +46,7 @@ class UserShow extends Component {
     const { data: completed_workouts } = await getCompletedWorkouts();
 
     completed_workouts.sort(compareDates);
-    const comp_workout_slice = completed_workouts.slice(-10).reverse();
+    const comp_workout_slice = completed_workouts.reverse().slice(-10);
     comp_workout_slice.forEach((cw) => {
       this.chart_data.labels.push(reformatDate(cw.date));
       this.chart_data.datasets[0].data.push(cw.completed_exercises.length);

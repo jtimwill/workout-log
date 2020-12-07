@@ -31,15 +31,16 @@ class CompletedWorkoutIndex extends Component {
     const { data: workouts } = await getWorkouts();
     const { data: exercises } = await getExercises();
     const { data: completed_workouts } = await getCompletedWorkouts();
-
+    completed_workouts.sort(compareDates);
     for(let cw of completed_workouts) {
+      cw.date = reformatDate(cw.date);
       cw.name = workouts[cw.workoutId-1].name;
       for(let ce of cw.completed_exercises) {
         ce.name = exercises[ce.exerciseId-1].name;
       }
       cw.completed_exercises.sort(compareNames);
     }
-    completed_workouts.sort(compareDates);
+    
     this.setState({ completed_workouts, exercises, workouts, muscles, api_response: true });
   }
 
@@ -156,7 +157,7 @@ class CompletedWorkoutIndex extends Component {
             <div className="card-header bg-light">
               <h4 className="card-title">
                 {current_completed_workout.date ?
-                `Workout Date: ${reformatDate(current_completed_workout.date)}` :
+                `Workout Date: ${current_completed_workout.date}` :
                 `Select a Workout`}
               </h4>
             </div>
