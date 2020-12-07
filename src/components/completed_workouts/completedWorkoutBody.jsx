@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const CompletedWorkoutBody = ({ completed_workout, current_completed_workout, onExerciseDelete, index }) => {
+const CompletedWorkoutBody = ({ completed_workout, current_completed_workout, onExerciseDelete }) => {
   const btn = "btn-sm btn btn-";
   const fa = "fa fa-";
   const badge = "ml-1 badge badge-secondary";
@@ -38,7 +38,7 @@ const CompletedWorkoutBody = ({ completed_workout, current_completed_workout, on
                 </Link>
                 <button
                   className={`${btn}danger`}
-                  onClick={() => onExerciseDelete(index, exercise)}
+                  onClick={() => onExerciseDelete(exercise)}
                 >
                   <i className={`${fa}trash`}></i>
                 </button>
@@ -55,7 +55,6 @@ CompletedWorkoutBody.propTypes = {
   completed_workout: PropTypes.object.isRequired,
   current_completed_workout: PropTypes.object.isRequired,
   onExerciseDelete: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired
 };
 
 export default CompletedWorkoutBody;

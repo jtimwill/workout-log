@@ -65,11 +65,19 @@ class CompletedWorkoutIndex extends Component {
     }
   };
 
-  handleExerciseDelete = async (completed_workout_index, selected_exercise) => {
+  handleExerciseDelete = async (selected_exercise) => {
     if (!this.confirmDelete("exercise")) { return; }
+    let completed_workout_index = 0;
+    const completed_workouts = [ ...this.state.completed_workouts ];
+    for(let i = 0; i < completed_workouts.length; i++) {
+      if (completed_workouts[i].id === selected_exercise.completedWorkoutId) {
+        completed_workout_index = i;
+        break;
+      }
+    }
+    
     const old_exercises = this.state.completed_workouts[completed_workout_index].completed_exercises;
     const new_exercises = old_exercises.filter(e => e.id !== selected_exercise.id);
-    const completed_workouts = [ ...this.state.completed_workouts ];
 
     completed_workouts[completed_workout_index].completed_exercises = new_exercises;
     this.setState({ completed_workouts });
@@ -196,7 +204,6 @@ class CompletedWorkoutIndex extends Component {
                 completed_workout={completed_workout}
                 current_completed_workout={current_completed_workout}
                 onExerciseDelete={this.handleExerciseDelete}
-                index={index}
               />
             </div>
           ))}
