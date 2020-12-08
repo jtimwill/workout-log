@@ -42,6 +42,8 @@ Additional resources that helped me:
 - https://stackoverflow.com/questions/16201948/how-to-exclude-particular-class-name-in-css-selector/16202009
 - https://blog.heroku.com/deploying-react-with-zero-configuration
 - https://devcenter.heroku.com/articles/renaming-apps
+- https://github.com/jtimwill/diet-tracker
+- https://github.com/jtimwill/workout-front-end
 
 ## Project Setup
 
