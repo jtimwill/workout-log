@@ -34,9 +34,9 @@ class CompletedWorkoutIndex extends Component {
     completed_workouts.sort(compareDates);
     for(let cw of completed_workouts) {
       cw.date = reformatDate(cw.date);
-      cw.name = workouts[cw.workoutId-1].name;
+      cw.name = this.findNameById(workouts, cw.workoutId);
       for(let ce of cw.completed_exercises) {
-        ce.name = exercises[ce.exerciseId-1].name;
+        ce.name = this.findNameById(exercises, ce.exerciseId);;
       }
       cw.completed_exercises.sort(compareNames);
     }
@@ -46,6 +46,13 @@ class CompletedWorkoutIndex extends Component {
 
   confirmDelete(name) {
     return window.confirm(`Are you sure you want to delete this ${name}?`);
+  }
+
+  findNameById(arr, id) {
+    for(let item of arr) 
+      if (item.id === id)
+        return item.name;
+    return "";
   }
 
   handleCompletedWorkoutDelete = async selected_workout => {
