@@ -7,6 +7,7 @@ import { getWorkouts } from '../../services/workoutService.js';
 import { getExercises } from '../../services/exerciseService.js';
 import { compareDates, compareNames } from '../../utilities/sortUtility.js';
 import { reformatDate } from '../../utilities/dateUtility.js';
+import { findNameById } from '../../utilities/findUtility.js';
 import './completedWorkout.css';
 import Pagination from '../reusable/pagination';
 import Spinner from '../reusable/spinner';
@@ -34,9 +35,9 @@ class CompletedWorkoutIndex extends Component {
     completed_workouts.sort(compareDates);
     for(let cw of completed_workouts) {
       cw.date = reformatDate(cw.date);
-      cw.name = this.findNameById(workouts, cw.workoutId);
+      cw.name = findNameById(workouts, cw.workoutId);
       for(let ce of cw.completed_exercises) {
-        ce.name = this.findNameById(exercises, ce.exerciseId);;
+        ce.name = findNameById(exercises, ce.exerciseId);;
       }
       cw.completed_exercises.sort(compareNames);
     }
@@ -46,13 +47,6 @@ class CompletedWorkoutIndex extends Component {
 
   confirmDelete(name) {
     return window.confirm(`Are you sure you want to delete this ${name}?`);
-  }
-
-  findNameById(arr, id) {
-    for(let item of arr) 
-      if (item.id === id)
-        return item.name;
-    return "";
   }
 
   handleCompletedWorkoutDelete = async selected_workout => {
@@ -141,10 +135,14 @@ class CompletedWorkoutIndex extends Component {
     const muscles = this.state.muscles;
     const exercises = this.state.exercises;
     let muscle_names = {};
+    let exercise_map = {};
     let selected_muscles = [];
 
+    for (let exercise of exercises) {
+      exercise_map[exercise.id] = exercise;
+    }
     for (let completed_exercise of completed_exercises) {
-      muscle_ids.push(exercises[completed_exercise.exerciseId].muscleId);
+      muscle_ids.push(exercise_map[completed_exercise.exerciseId].muscleId);
     }
     for (let muscle of muscles){
       muscle_names[muscle.id] = muscle.name;
@@ -161,8 +159,7 @@ class CompletedWorkoutIndex extends Component {
     const { sort_direction,
             current_page,
             current_completed_workout,
-            completed_workouts,
-            workouts
+            completed_workouts
           } = this.state;
 
     return (

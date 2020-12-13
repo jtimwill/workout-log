@@ -11,6 +11,7 @@ import MuscleMap from '../reusable/muscleMap';
 import WorkoutHead from './workoutHead'
 import WorkoutBody from './workoutBody';
 import { getExercises } from '../../services/exerciseService.js';
+import { findNameById } from '../../utilities/findUtility.js';
 
 class WorkoutIndex extends Component {
   state = {
@@ -32,7 +33,7 @@ class WorkoutIndex extends Component {
 
     for(let w of workouts) {
       for(let ce of w.target_exercises) {
-        ce.name = exercises[ce.exerciseId-1].name;
+        ce.name = findNameById(exercises, ce.exerciseId);
       }
     }
 
@@ -121,10 +122,14 @@ class WorkoutIndex extends Component {
     const muscles = this.state.muscles;
     const exercises = this.state.exercises;
     let muscle_names = {};
+    let exercise_map = {};
     let selected_muscles = [];
 
+    for (let exercise of exercises) {
+      exercise_map[exercise.id] = exercise;
+    }
     for (let target_exercise of target_exercises) {
-      muscle_ids.push(exercises[target_exercise.exerciseId].muscleId);
+      muscle_ids.push(exercise_map[target_exercise.exerciseId].muscleId);
     }
     for (let muscle of muscles){
       muscle_names[muscle.id] = muscle.name;
